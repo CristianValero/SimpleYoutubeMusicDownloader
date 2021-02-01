@@ -35,18 +35,18 @@ for music in music_list:
         url = music
         video = pafy.new(url)
         bestaudio = video.getbestaudio()
-        bestaudio.download(filepath=MUSIC_TEMP_FOLDER)
+        bestaudio.download(filepath=MUSIC_TEMP_FOLDER + '/')
     except:
         error_list.append("Error descargando: " + music)
 
 print("Converting to mp3.....")
 for filename in os.listdir(MUSIC_TEMP_FOLDER):
-    name = os.path.splitext(filename)
     try:
-        audio = convert.from_file(MUSIC_TEMP_FOLDER + filename)
+        audio = convert.from_file(MUSIC_TEMP_FOLDER + '/' + filename)
+        name = os.path.splitext(filename)
         audio.export(MUSIC_FOLDER + '/' + name[0] + '.mp3', format="mp3", bitrate="160k")
     except:
-        error_list.append("Error convirtiendo: " + name[0])
+        error_list.append("Error convirtiendo: " + filename)
 shutil.rmtree(MUSIC_TEMP_FOLDER)
 
 for error in error_list:
